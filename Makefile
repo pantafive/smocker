@@ -111,6 +111,11 @@ build-docker:
 	docker build --build-arg VERSION=$(VERSION) --build-arg COMMIT=$(COMMIT) --tag $(DOCKER_IMAGE):latest .
 	docker tag $(DOCKER_IMAGE) $(DOCKER_IMAGE):$(DOCKER_TAG)
 
+.PHONY: build-docker-multiarch
+build-docker-multiarch:
+	docker buildx build --build-arg VERSION=$(VERSION) --build-arg COMMIT=$(COMMIT) --tag $(DOCKER_IMAGE):latest --platform linux/arm/v7,linux/arm64/v8,linux/amd64 .
+	docker tag $(DOCKER_IMAGE) $(DOCKER_IMAGE):$(DOCKER_TAG)
+
 .PHONY: start-docker
 start-docker: check-default-ports
 	docker run -d -p 8080:8080 -p 8081:8081 --name $(APPNAME) $(DOCKER_IMAGE):$(DOCKER_TAG)
