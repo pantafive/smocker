@@ -83,6 +83,12 @@ jobs:
           node-version: '${{ steps.nvm.outputs.NVMRC }}'
           cache: yarn
 
+      - name: install buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          version: latest
+
       - name: Setup Go environment
         uses: actions/setup-go@v2.1.3
         with:
